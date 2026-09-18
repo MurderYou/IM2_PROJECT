@@ -60,11 +60,7 @@ function pesos($amount) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sales — SEMS</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<?php include __DIR__ . '/includes/head.php'; ?>
 
 <style>
   .line-items-table {
@@ -149,39 +145,34 @@ function pesos($amount) {
       <div class="notice-banner">Unable to load product or sales data right now. Please try again shortly.</div>
     <?php endif; ?>
 
-    <?php if ($success): ?>
-      <div class="success-banner"><?php echo htmlspecialchars($success); ?></div>
-    <?php endif; ?>
-
-    <?php if ($error): ?>
-      <div class="error-banner"><?php echo htmlspecialchars($error); ?></div>
-    <?php endif; ?>
+    <?php include __DIR__ . '/includes/flash.php'; ?>
 
     <div class="panel">
       <h2>Record a new sale</h2>
-
       <?php if (empty($products)): ?>
         <p class="empty-state">No products found. Add products to the database before recording a sale.</p>
       <?php else: ?>
         <form action="sales_process.php" method="POST" id="saleForm">
           <input type="hidden" name="action" value="create">
 
-          <table class="line-items-table" id="itemsTable">
-            <thead>
-              <tr>
-                <th style="width: 34%">Product</th>
-                <th style="width: 16%">Quantity</th>
-                <th style="width: 20%">Unit price</th>
-                <th style="width: 20%">Subtotal</th>
-                <th style="width: 10%"></th>
-              </tr>
-            </thead>
-            <tbody id="itemsBody">
-              <!-- rows added by JS -->
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="line-items-table" id="itemsTable">
+              <thead>
+                <tr>
+                  <th style="width: 34%">Product</th>
+                  <th style="width: 16%">Quantity</th>
+                  <th style="width: 20%">Unit price</th>
+                  <th style="width: 20%">Subtotal</th>
+                  <th style="width: 10%"></th>
+                </tr>
+              </thead>
+              <tbody id="itemsBody">
+                <!-- rows added by JS -->
+              </tbody>
+            </table>
+          </div>
 
-          <button type="button" class="btn btn-secondary btn-sm" id="addRowBtn">+ Add product</button>
+          <button type="button" class="btn btn-secondary btn-sm no-print" id="addRowBtn">+ Add product</button>
 
           <div class="form-actions-row">
             <div class="grand-total">Total: <span id="grandTotal">₱0.00</span></div>
@@ -196,14 +187,15 @@ function pesos($amount) {
       <?php if (empty($salesHistory)): ?>
         <p class="empty-state">No sales recorded yet.</p>
       <?php else: ?>
-        <table class="data-table">
+                <div class="table-responsive">
+        <table class="data-table" id="salesHistoryTable">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Recorded by</th>
-              <th>Items</th>
-              <th>Total</th>
-              <th></th>
+              <th class="sortable" data-sort-key="date">Date</th>
+              <th class="sortable">Recorded by</th>
+              <th class="sortable">Items</th>
+              <th class="sortable">Total</th>
+              <th><span class="visually-hidden">Actions</span></th>
             </tr>
           </thead>
           <tbody>
@@ -227,6 +219,7 @@ function pesos($amount) {
             <?php endforeach; ?>
           </tbody>
         </table>
+        </div>
       <?php endif; ?>
     </div>
   </main>
@@ -317,8 +310,10 @@ function pesos($amount) {
   document.getElementById('addRowBtn')?.addEventListener('click', addRow);
 
   // Start with one row.
-  if (products.length) addRow();
+    if (products.length) addRow();
 </script>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

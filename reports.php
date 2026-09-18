@@ -122,11 +122,7 @@ function pesos($amount) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reports — SEMS</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<?php include __DIR__ . '/includes/head.php'; ?>
 
 <style>
   .filter-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: end; margin-bottom: 1.5rem; }
@@ -192,7 +188,7 @@ function pesos($amount) {
       <a href="reports.php?preset=custom&from=<?php echo $from; ?>&to=<?php echo $to; ?>" class="<?php echo $preset === 'custom' ? 'active' : ''; ?>">Custom range</a>
     </div>
 
-    <form method="GET" class="filter-row no-print">
+        <form method="GET" class="filter-row no-print">
       <input type="hidden" name="preset" value="custom">
       <div class="field">
         <label for="from">From</label>
@@ -203,6 +199,8 @@ function pesos($amount) {
         <input type="date" id="to" name="to" value="<?php echo htmlspecialchars($to); ?>">
       </div>
       <button type="submit" class="btn btn-secondary">Apply range</button>
+      <button type="button" class="btn btn-secondary" onclick="exportTableToCSV('salesTable', 'sems-sales-export')"><i class="bi bi-download"></i> Export sales CSV</button>
+      <button type="button" class="btn btn-secondary" onclick="exportTableToCSV('expensesTable', 'sems-expenses-export')"><i class="bi bi-download"></i> Export expenses CSV</button>
       <button type="button" class="btn btn-primary" onclick="window.print()">Print report</button>
     </form>
 
@@ -230,8 +228,8 @@ function pesos($amount) {
       <?php if (empty($salesList)): ?>
         <p class="empty-state">No sales recorded in this period.</p>
       <?php else: ?>
-        <table class="data-table">
-          <thead><tr><th>Date</th><th>Recorded by</th><th>Items</th><th>Total</th></tr></thead>
+                <table class="data-table" id="salesTable">
+          <thead><tr><th class="sortable">Date</th><th class="sortable">Recorded by</th><th class="sortable">Items</th><th class="sortable">Total</th></tr></thead>
           <tbody>
             <?php foreach ($salesList as $sale): ?>
               <tr>
@@ -254,8 +252,8 @@ function pesos($amount) {
       <?php if (empty($expensesList)): ?>
         <p class="empty-state">No expenses recorded in this period.</p>
       <?php else: ?>
-        <table class="data-table">
-          <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th></tr></thead>
+                <table class="data-table" id="expensesTable">
+          <thead><tr><th class="sortable">Date</th><th class="sortable">Category</th><th class="sortable">Description</th><th class="sortable">Amount</th></tr></thead>
           <tbody>
             <?php foreach ($expensesList as $exp): ?>
               <tr>
@@ -274,12 +272,13 @@ function pesos($amount) {
     </div>
 
     <div class="panel">
-      <h2>Expenses by category</h2>
+            <h2>Expenses by category</h2>
       <?php if (empty($categoryBreakdown)): ?>
         <p class="empty-state">No expenses to break down for this period.</p>
       <?php else: ?>
-        <table class="data-table">
-          <thead><tr><th>Category</th><th>Total</th><th>% of expenses</th></tr></thead>
+        <button type="button" class="btn btn-secondary no-print" onclick="exportTableToCSV('categoryTable', 'sems-category-export')"><i class="bi bi-download"></i> Export category CSV</button>
+        <table class="data-table" id="categoryTable">
+          <thead><tr><th class="sortable">Category</th><th class="sortable">Total</th><th>% of expenses</th></tr></thead>
           <tbody>
             <?php foreach ($categoryBreakdown as $row): ?>
               <tr>
@@ -292,9 +291,11 @@ function pesos($amount) {
         </table>
       <?php endif; ?>
     </div>
-  </main>
+    </main>
 
 </div>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

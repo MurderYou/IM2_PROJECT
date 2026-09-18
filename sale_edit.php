@@ -66,11 +66,7 @@ if (!$dataUnavailable && !$saleFound) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Edit sale — SEMS</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<?php include __DIR__ . '/includes/head.php'; ?>
 
 <style>
   .line-items-table {
@@ -151,9 +147,7 @@ if (!$dataUnavailable && !$saleFound) {
       <div class="notice-banner">Unable to load this sale right now. Please try again shortly.</div>
     <?php endif; ?>
 
-    <?php if ($error): ?>
-      <div class="error-banner"><?php echo htmlspecialchars($error); ?></div>
-    <?php endif; ?>
+        <?php include __DIR__ . '/includes/flash.php'; ?>
 
     <?php if (!$dataUnavailable): ?>
     <div class="panel">
@@ -302,8 +296,10 @@ if (!$dataUnavailable && !$saleFound) {
     existingItems.forEach(item => addRow(item.product_id, item.quantity));
   } else if (products.length) {
     addRow();
-  }
+    }
 </script>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

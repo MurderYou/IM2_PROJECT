@@ -112,11 +112,7 @@ function pesos($amount) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — SEMS</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<?php include __DIR__ . '/includes/head.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -143,6 +139,8 @@ function pesos($amount) {
         Sales and expense figures will appear here once transactions are recorded and the database is connected.
       </div>
     <?php endif; ?>
+
+    <?php include __DIR__ . '/includes/flash.php'; ?>
 
     <div class="card-row">
       <div class="summary-card">
@@ -250,8 +248,10 @@ function pesos($amount) {
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'IBM Plex Sans', size: 11 } } } }
       }
     });
-  }
+    }
 </script>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

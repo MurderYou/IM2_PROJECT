@@ -39,6 +39,8 @@ unset($_SESSION['login_success']);
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 
 <style>
   :root {
@@ -309,13 +311,64 @@ unset($_SESSION['login_success']);
     .brand-mark .wordmark {
       font-size: 2.1rem;
     }
-    .form-panel {
+        .form-panel {
       padding: 2.75rem 1.75rem;
     }
   }
+
+  /* ---------- Dark mode (auth pages) ---------- */
+  body.dark {
+    --ledger-green: #0e231e;
+    --ledger-green-light: #15332a;
+    --gold: #d9b558;
+    --paper: #1a1f1d;
+    --paper-card: #222825;
+    --ink: #e8e2d6;
+    --ink-dim: #c4bdae;
+    --error-red: #d9534f;
+  }
+  body.dark .brand-panel { opacity: 0.92; }
+  body.dark .form-panel { background: var(--paper); color: var(--ink); }
+  body.dark .wordmark,
+  body.dark .tagline,
+  body.dark .brand-footer { color: var(--paper); }
+  body.dark .form-wrap h1,
+  body.dark .form-wrap .sub,
+  body.dark .signup-note,
+  body.dark .signin-note,
+  body.dark .role-note { color: var(--ink); }
+  body.dark .field input { background: #2a322f; border-color: #444d4a; color: var(--ink); }
+  body.dark .alert-banner { background: rgba(217, 83, 79, 0.12); }
+  body.dark .success-banner { background: rgba(67, 136, 99, 0.12); }
+  body.dark .row-between label { color: var(--ink); }
+
+  .theme-toggle-fixed {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(22, 33, 28, 0.15);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+  }
+  body.dark .theme-toggle-fixed {
+    background: rgba(26, 31, 29, 0.9);
+    border-color: rgba(239, 236, 227, 0.15);
+  }
+  .theme-toggle-fixed:hover { opacity: 0.8; }
 </style>
 </head>
 <body>
+
+<button type="button" id="themeToggle" class="theme-toggle-fixed" aria-label="Toggle dark mode">
+  <i class="bi bi-circle-half"></i>
+</button>
 
 <div class="split">
 
@@ -378,6 +431,8 @@ unset($_SESSION['login_success']);
   </div>
 
 </div>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

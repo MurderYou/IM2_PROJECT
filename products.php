@@ -59,11 +59,7 @@ $LOW_STOCK_THRESHOLD = 10;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Products — SEMS</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<?php include __DIR__ . '/includes/head.php'; ?>
 
 <style>
   .split-panels { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.25rem; margin-bottom: 1.5rem; }
@@ -106,8 +102,7 @@ $LOW_STOCK_THRESHOLD = 10;
       <div class="notice-banner">Unable to load product data right now. Please try again shortly.</div>
     <?php endif; ?>
 
-    <?php if ($success): ?><div class="success-banner"><?php echo htmlspecialchars($success); ?></div><?php endif; ?>
-    <?php if ($error): ?><div class="error-banner"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
+        <?php include __DIR__ . '/includes/flash.php'; ?>
 
     <div class="split-panels">
       <div class="panel">
@@ -159,7 +154,7 @@ $LOW_STOCK_THRESHOLD = 10;
           <p class="empty-state">No products yet — add one to get started.</p>
         <?php else: ?>
           <table class="data-table">
-            <thead><tr><th>Product</th><th>Price</th><th>Stock</th><th>Restock</th><th></th></tr></thead>
+            <thead><tr><th class="sortable">Product</th><th class="sortable">Price</th><th class="sortable">Stock</th><th>Restock</th><th></th></tr></thead>
             <tbody>
               <?php foreach ($products as $p): ?>
                 <tr>
@@ -193,9 +188,11 @@ $LOW_STOCK_THRESHOLD = 10;
         <?php endif; ?>
       </div>
     </div>
-  </main>
+    </main>
 
 </div>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

@@ -62,11 +62,7 @@ try {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>User accounts — SEMS</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<?php include __DIR__ . '/includes/head.php'; ?>
 
 <style>
   .split-panels { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.25rem; margin-bottom: 1.5rem; }
@@ -104,8 +100,7 @@ try {
       <div class="notice-banner">Unable to load account data right now. Please try again shortly.</div>
     <?php endif; ?>
 
-    <?php if ($success): ?><div class="success-banner"><?php echo htmlspecialchars($success); ?></div><?php endif; ?>
-    <?php if ($error): ?><div class="error-banner"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
+        <?php include __DIR__ . '/includes/flash.php'; ?>
 
     <div class="split-panels">
       <div class="panel">
@@ -162,7 +157,7 @@ try {
           <p class="empty-state">No accounts found.</p>
         <?php else: ?>
           <table class="data-table">
-            <thead><tr><th>Full name</th><th>Username</th><th>Role</th><th>Created</th><th></th></tr></thead>
+            <thead><tr><th class="sortable">Full name</th><th class="sortable">Username</th><th class="sortable">Role</th><th class="sortable">Created</th><th></th></tr></thead>
             <tbody>
               <?php foreach ($users as $u): ?>
                 <tr>
@@ -190,9 +185,11 @@ try {
         <?php endif; ?>
       </div>
     </div>
-  </main>
+    </main>
 
 </div>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

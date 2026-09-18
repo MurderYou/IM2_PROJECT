@@ -22,7 +22,7 @@
 
 body {
   margin: 0;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Montserrat';
   color: var(--ink);
   background: var(--paper);
 }
@@ -341,4 +341,315 @@ body {
   .sidebar { width: 100%; }
   .main { padding: 2rem 1.25rem; }
   .card-row { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================
+ *  SIDEBAR ENHANCEMENTS
+ *  Avatar, icon-spaced nav links, theme toggle button,
+ *  and mobile menu close button.
+ * ========================================================== */
+
+/* Mobile hamburger / close button — hidden on desktop,
+   fixed overlay on mobile when sidebar opens */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1040;
+  background: var(--gold);
+  color: var(--ledger-green);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  cursor: pointer;
+  font-size: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.15s ease;
+}
+.mobile-menu-toggle:hover { background: var(--gold-hover); color: var(--paper); }
+
+/* User avatar block at top of sidebar */
+.sidebar-user {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(239, 236, 227, 0.15);
+  margin-bottom: 1.5rem;
+}
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ledger-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.user-info { display: flex; flex-direction: column; }
+.user-name { font-size: 0.9375rem; font-weight: 500; color: var(--paper); }
+
+/* Icon-spaced nav links */
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.sidebar-nav a i {
+  width: 1.1rem;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(239, 236, 227, 0.2);
+  color: rgba(239, 236, 227, 0.82);
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.theme-toggle:hover {
+  background: rgba(239, 236, 227, 0.08);
+  color: var(--paper);
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+ *  TABLE ENHANCEMENTS
+ * ========================================================== */
+.data-table tbody tr:hover { background: rgba(22, 33, 28, 0.03); }
+.data-table tbody tr:nth-child(even) { background: rgba(0, 0, 0, 0.015); }
+
+.data-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 1.5rem;
+}
+.data-table th.sortable:hover { color: var(--gold); }
+.data-table th.sortable::after {
+  content: "⇅";
+  position: absolute;
+  right: 0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  opacity: 0.3;
+}
+.data-table th.sortable.sort-asc::after { content: "↑"; opacity: 0.6; }
+.data-table th.sortable.sort-desc::after { content: "↓"; opacity: 0.6; }
+
+.data-table tfoot td {
+  font-weight: 500;
+  border-top: 2px solid rgba(22, 33, 28, 0.08);
+}
+
+/* Summary card hover */
+.summary-card {
+  transition: box-shadow 0.2s ease, transform 0.05s ease;
+}
+.summary-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+ *  DARK MODE
+ *  Toggle via body.dark (persisted in localStorage by footer.js)
+ * ========================================================== */
+body.dark {
+  --ledger-green: #0e231e;
+  --ledger-green-light: #15332a;
+  --paper: #1a1f1d;
+  --paper-card: #222825;
+  --ink: #e8e2d6;
+  --ink-dim: #c4bdae;
+  --gold: #d9b558;
+  --gold-hover: #f0c659;
+  --error-red: #d9534f;
+  --sale-color: #d9b558;
+  --expense-color: #d9534f;
+}
+
+body.dark .sidebar { color: var(--paper); }
+body.dark .sidebar-brand,
+body.dark .sidebar-footer,
+body.dark .sidebar-nav a,
+body.dark .sidebar-user,
+body.dark .theme-toggle,
+body.dark .user-name { color: var(--paper); }
+
+body.dark .sidebar-nav a { color: rgba(239, 236, 227, 0.8); }
+body.dark .sidebar-nav a:hover { color: var(--paper); }
+
+body.dark .sidebar-nav a.active {
+  background: var(--gold);
+  color: var(--ledger-green);
+}
+
+body.dark .summary-card { background: var(--paper-card); color: var(--ink); }
+body.dark .panel { background: var(--paper-card); color: var(--ink); }
+
+body.dark .data-table th { color: var(--ink-dim); }
+body.dark .data-table td { border-bottom-color: rgba(22, 33, 28, 0.1); }
+body.dark .data-table { color: var(--ink); }
+
+body.dark .data-table tbody tr:hover { background: rgba(239, 236, 227, 0.04); }
+body.dark .data-table tbody tr:nth-child(even) { background: rgba(239, 236, 227, 0.03); }
+body.dark .data-table tfoot td { border-top-color: rgba(239, 236, 227, 0.1); }
+
+body.dark .field input,
+body.dark .field select,
+body.dark .line-items-table input,
+body.dark .line-items-table select {
+  background: #2a322f;
+  border-color: #444d4a;
+  color: var(--ink);
+}
+
+/* Dark mode: table-responsive scrollbar */
+body.dark .table-responsive {
+  scrollbar-color: var(--ink-dim) transparent;
+}
+
+body.dark .role-badge { color: var(--paper); }
+
+body.dark .brand-panel { background: var(--ledger-green); }
+body.dark .form-panel { background: var(--paper); color: var(--ink); }
+
+body.dark .report-meta { color: var(--ink-dim); }
+
+body.dark .preset-tabs a {
+  color: var(--ink);
+  background: rgba(22, 33, 28, 0.2);
+}
+body.dark .preset-tabs a:hover:not(.active) { background: rgba(22, 33, 28, 0.3); }
+
+/* ==========================================================
+ *  TOAST NOTIFICATIONS
+ * ========================================================== */
+.toast-container {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: max-content;
+  max-width: 420px;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--paper-card);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-left: 3px solid var(--gold);
+  opacity: 0;
+  transform: translateX(120%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.toast-success { border-left-color: var(--ledger-green-light); }
+.toast-error   { border-left-color: var(--error-red); }
+.toast-notice  { border-left-color: var(--gold); }
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  color: rgba(22, 33, 28, 0.4);
+  transition: color 0.15s ease;
+}
+.toast-close:hover { color: var(--ink); }
+
+.toast-message { flex: 1; line-height: 1.5; }
+
+/* ==========================================================
+ *  MOBILE DRAWER (sidebar on mobile)
+ * ========================================================== */
+@media (max-width: 767px) {
+  .mobile-menu-toggle { display: block; }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100vh;
+    z-index: 1030;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+  }
+  body.sidebar-open .sidebar { left: 0; }
+
+  body.sidebar-open::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1020;
+  }
+
+  body.sidebar-open .main { position: relative; z-index: 1010; }
+
+     body:not(.sidebar-open) .mobile-menu-toggle {
+    background: var(--gold);
+    color: var(--ledger-green);
+  }
+}
+
+/* ==========================================================
+ *  PRINT STYLES
+ *  Hide interactive controls when printing (reports, etc.)
+ * ========================================================== */
+@media print {
+  .no-print,
+  .mobile-menu-toggle,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  /* Ensure print-friendly colors (dark text on light background) */
+  body {
+    background: #fff;
+    color: #16211c;
+  }
+
+  .sidebar,
+  .sidebar-footer {
+    display: none !important;
+  }
 }
