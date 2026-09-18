@@ -1,0 +1,344 @@
+/* assets/css/style.css
+ * Shared styling for all authenticated SEMS pages (dashboard, sales,
+ * expenses, reports, users). login.php and signup.php keep their own
+ * embedded styles since they use a different split-screen layout and
+ * aren't part of the logged-in app shell.
+ */
+
+:root {
+  --ledger-green: #1E3D32;
+  --ledger-green-light: #2B5646;
+  --paper: #EFECE3;
+  --paper-card: #FFFFFF;
+  --ink: #16211C;
+  --gold: #B8860B;
+  --gold-hover: #9C7109;
+  --error-red: #B3261E;
+  --sale-color: #B8860B;
+  --expense-color: #B3261E;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+/* ---------- Layout ---------- */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--ledger-green);
+  color: var(--paper);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(239, 236, 227, 0.06) 0px,
+    rgba(239, 236, 227, 0.06) 1px,
+    transparent 1px,
+    transparent 48px
+  );
+  pointer-events: none;
+}
+
+.sidebar-brand {
+  position: relative;
+  z-index: 1;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.sidebar-nav {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar-nav li { margin-bottom: 0.25rem; }
+
+.sidebar-nav a {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  border-radius: 4px;
+  color: rgba(239, 236, 227, 0.82);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-nav a:hover {
+  background: rgba(239, 236, 227, 0.08);
+  color: var(--paper);
+}
+
+.sidebar-nav a.active {
+  background: var(--gold);
+  color: var(--ledger-green);
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  position: relative;
+  z-index: 1;
+  font-size: 0.8125rem;
+  color: rgba(239, 236, 227, 0.6);
+  padding-top: 1rem;
+  border-top: 1px solid rgba(239, 236, 227, 0.15);
+}
+
+.sidebar-footer a {
+  color: rgba(239, 236, 227, 0.82);
+  text-decoration: none;
+}
+
+.sidebar-footer a:hover { color: var(--paper); text-decoration: underline; }
+
+.main {
+  flex: 1;
+  padding: 2.5rem 3rem;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.topbar h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.75rem;
+  margin: 0;
+}
+
+.topbar .welcome {
+  font-size: 0.9375rem;
+  color: rgba(22, 33, 28, 0.65);
+}
+
+.role-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--paper);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.15rem 0.55rem;
+  border-radius: 3px;
+  text-transform: capitalize;
+  margin-left: 0.5rem;
+}
+
+/* ---------- Banners ---------- */
+.notice-banner {
+  background: rgba(184, 134, 11, 0.1);
+  border-left: 3px solid var(--gold);
+  color: #6b5209;
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.error-banner {
+  background: rgba(179, 38, 30, 0.08);
+  border-left: 3px solid var(--error-red);
+  color: var(--error-red);
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.success-banner {
+  background: rgba(43, 86, 70, 0.08);
+  border-left: 3px solid var(--ledger-green-light);
+  color: var(--ledger-green);
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.75rem;
+}
+
+/* ---------- Cards ---------- */
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: var(--paper-card);
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  border-top: 3px solid var(--gold);
+}
+
+.summary-card.expense-accent { border-top-color: var(--error-red); }
+
+.summary-card .label {
+  font-size: 0.8125rem;
+  color: rgba(22, 33, 28, 0.6);
+  margin-bottom: 0.4rem;
+}
+
+.summary-card .value {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+/* ---------- Panels ---------- */
+.chart-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.panel {
+  background: var(--paper-card);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.panel h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.125rem;
+  margin: 0 0 1rem;
+}
+
+.chart-wrap { position: relative; height: 260px; }
+
+/* ---------- Tables ---------- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.data-table th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: rgba(22, 33, 28, 0.5);
+  font-weight: 500;
+  padding: 0.5rem 0.5rem;
+  border-bottom: 1px solid rgba(22, 33, 28, 0.1);
+}
+
+.data-table td {
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid rgba(22, 33, 28, 0.06);
+  vertical-align: middle;
+}
+
+.type-pill {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.type-pill.sale { background: rgba(184, 134, 11, 0.12); color: var(--gold-hover); }
+.type-pill.expense { background: rgba(179, 38, 30, 0.1); color: var(--error-red); }
+
+.empty-state {
+  color: rgba(22, 33, 28, 0.5);
+  font-size: 0.9375rem;
+  padding: 1rem 0;
+}
+
+/* ---------- Forms & buttons ---------- */
+.field { margin-bottom: 1.25rem; }
+
+.field label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(22, 33, 28, 0.75);
+  margin-bottom: 0.4rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid rgba(22, 33, 28, 0.2);
+  background: #fff;
+  padding: 0.55rem 0.7rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.9375rem;
+  color: var(--ink);
+  border-radius: 4px;
+  transition: border-color 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
+}
+
+.btn {
+  display: inline-block;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'IBM Plex Sans', sans-serif;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.btn-primary { background: var(--gold); color: var(--paper); }
+.btn-primary:hover { background: var(--gold-hover); color: var(--paper); }
+
+.btn-secondary { background: rgba(22, 33, 28, 0.08); color: var(--ink); }
+.btn-secondary:hover { background: rgba(22, 33, 28, 0.14); }
+
+.btn-danger { background: transparent; color: var(--error-red); padding: 0.3rem 0.6rem; font-size: 0.8125rem; }
+.btn-danger:hover { background: rgba(179, 38, 30, 0.08); }
+
+.btn-sm { padding: 0.35rem 0.7rem; font-size: 0.8125rem; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+  .card-row { grid-template-columns: repeat(2, 1fr); }
+  .chart-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 767px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; }
+  .main { padding: 2rem 1.25rem; }
+  .card-row { grid-template-columns: 1fr; }
+}
