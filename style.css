@@ -11,6 +11,7 @@
   --paper: #EFECE3;
   --paper-card: #FFFFFF;
   --ink: #16211C;
+  --ink-dim: #4a554f;
   --gold: #B8860B;
   --gold-hover: #9C7109;
   --error-red: #B3261E;
@@ -490,16 +491,15 @@ body.dark {
   --expense-color: #d9534f;
 }
 
-body.dark .sidebar { color: var(--paper); }
+body.dark .sidebar { color: var(--ink); }
 body.dark .sidebar-brand,
 body.dark .sidebar-footer,
-body.dark .sidebar-nav a,
 body.dark .sidebar-user,
-body.dark .theme-toggle,
-body.dark .user-name { color: var(--paper); }
+body.dark .user-name { color: var(--ink); }
+body.dark .theme-toggle { color: var(--ink); }
 
 body.dark .sidebar-nav a { color: rgba(239, 236, 227, 0.8); }
-body.dark .sidebar-nav a:hover { color: var(--paper); }
+body.dark .sidebar-nav a:hover { color: var(--ink); }
 
 body.dark .sidebar-nav a.active {
   background: var(--gold);
@@ -509,8 +509,8 @@ body.dark .sidebar-nav a.active {
 body.dark .summary-card { background: var(--paper-card); color: var(--ink); }
 body.dark .panel { background: var(--paper-card); color: var(--ink); }
 
-body.dark .data-table th { color: var(--ink-dim); }
-body.dark .data-table td { border-bottom-color: rgba(22, 33, 28, 0.1); }
+body.dark .data-table th { border-bottom-color: rgba(239, 236, 227, 0.1); }
+body.dark .data-table td { border-bottom-color: rgba(239, 236, 227, 0.1); }
 body.dark .data-table { color: var(--ink); }
 
 body.dark .data-table tbody tr:hover { background: rgba(239, 236, 227, 0.04); }
@@ -526,9 +526,75 @@ body.dark .line-items-table select {
   color: var(--ink);
 }
 
+/* ============================================================
+ * DARK MODE: ALL labels are white so users can see them
+ * Covers dashboard, products, sales, expenses, reports, users
+ * ============================================================ */
+body.dark label,
+body.dark .label,
+body.dark .field label,
+body.dark .filter-row .field label,
+body.dark .summary-card .label,
+body.dark .data-table th,
+body.dark .line-items-table th,
+body.dark .report-meta,
+body.dark .hint,
+body.dark .stock-hint {
+  color: var(--ink) !important;
+}
+
+/* Dark mode: secondary text (keep dimmed) */
+body.dark .empty-state,
+body.dark .topbar .welcome,
+body.dark .toast-close {
+  color: var(--ink-dim);
+}
+
 /* Dark mode: table-responsive scrollbar */
 body.dark .table-responsive {
   scrollbar-color: var(--ink-dim) transparent;
+}
+
+/* Dark mode: modal */
+body.dark .modal-content {
+  background-color: #2a322f;
+  color: var(--ink);
+  border-color: #444d4a;
+}
+body.dark .modal-header {
+  border-color: #444d4a;
+}
+body.dark .modal-footer {
+  border-color: #444d4a;
+}
+body.dark .modal-title {
+  color: var(--ink);
+}
+body.dark .modal .field input,
+body.dark .modal .field select,
+body.dark .modal .field textarea {
+  background: #2a322f;
+  border-color: #444d4a;
+  color: var(--ink);
+}
+/* Dark mode: summary card values (Today's sales, etc.) */
+body.dark .summary-card .value {
+  color: var(--ink);
+}
+
+/* Dark mode: net profit values (match other summary card values — white) */
+body.dark .net-positive,
+body.dark .net-negative {
+  color: var(--ink);
+}
+
+/* Dark mode: secondary buttons (used in modal Cancel, edit/void buttons) */
+body.dark .btn-secondary {
+  background: rgba(239, 236, 227, 0.08);
+  color: var(--ink);
+}
+body.dark .btn-secondary:hover {
+  background: rgba(239, 236, 227, 0.14);
 }
 
 body.dark .role-badge { color: var(--paper); }
@@ -540,9 +606,16 @@ body.dark .report-meta { color: var(--ink-dim); }
 
 body.dark .preset-tabs a {
   color: var(--ink);
-  background: rgba(22, 33, 28, 0.2);
+  background: rgba(239, 236, 227, 0.08);
 }
-body.dark .preset-tabs a:hover:not(.active) { background: rgba(22, 33, 28, 0.3); }
+body.dark .preset-tabs a:hover:not(.active) { background: rgba(239, 236, 227, 0.08); }
+
+body.dark .summary-card > :not(.value),
+body.dark .text-muted,
+body.dark .text-secondary,
+body.dark .form-text {
+  color: var(--ink-dim) !important;
+}
 
 /* ==========================================================
  *  TOAST NOTIFICATIONS

@@ -239,14 +239,16 @@ unset($_SESSION['signup_error'], $_SESSION['signup_old']);
   }
   body.dark .brand-panel { opacity: 0.92; }
   body.dark .form-panel { background: var(--paper); color: var(--ink); }
-  body.dark .wordmark,
+    body.dark .wordmark,
   body.dark .tagline,
-  body.dark .brand-footer { color: var(--paper); }
+  body.dark .brand-footer { color: var(--ink-dim); }
   body.dark .form-wrap h1,
   body.dark .form-wrap .sub,
   body.dark .signin-note,
   body.dark .role-note { color: var(--ink); }
   body.dark .field input { background: #2a322f; border-color: #444d4a; color: var(--ink); }
+  body.dark .field label { color: var(--ink); }
+  body.dark .field .hint { color: var(--ink-dim); }
   body.dark .alert-banner { background: rgba(217, 83, 79, 0.12); }
 
   .theme-toggle-fixed {

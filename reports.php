@@ -141,6 +141,9 @@ function pesos($amount) {
 
   .net-positive { color: var(--ledger-green); }
   .net-negative { color: var(--error-red); }
+  /* Dark mode: make net profit values white like other summary cards */
+  body.dark .net-positive,
+  body.dark .net-negative { color: var(--ink); }
 
   .report-meta { font-size: 0.875rem; color: rgba(22,33,28,0.6); margin-bottom: 1.5rem; }
 

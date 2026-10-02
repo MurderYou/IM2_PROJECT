@@ -214,6 +214,9 @@ function pesos($amount) {
   const categoryAmounts = <?php echo json_encode($categoryAmounts); ?>;
 
   if (trendLabels.length) {
+    var isDark = document.body.classList.contains('dark');
+    var axisColor = isDark ? 'rgba(239, 236, 227, 0.5)' : 'rgba(22, 33, 28, 0.3)';
+    var legendColor = isDark ? '#e8e2d6' : '#16211c';
     new Chart(document.getElementById('trendChart'), {
       type: 'line',
       data: {
@@ -226,16 +229,25 @@ function pesos($amount) {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'IBM Plex Sans' } } } },
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'IBM Plex Sans' }, color: legendColor } } },
         scales: {
-          y: { beginAtZero: true, ticks: { font: { family: 'IBM Plex Sans' } } },
-          x: { ticks: { font: { family: 'IBM Plex Sans' } } }
+          y: {
+            beginAtZero: true,
+            ticks: { font: { family: 'IBM Plex Sans' }, color: legendColor },
+            grid: { color: axisColor }
+          },
+          x: {
+            ticks: { font: { family: 'IBM Plex Sans' }, color: legendColor },
+            grid: { color: axisColor }
+          }
         }
       }
     });
   }
 
   if (categoryLabels.length) {
+    var isDark = document.body.classList.contains('dark');
+    var legendColor = isDark ? '#e8e2d6' : '#16211c';
     new Chart(document.getElementById('categoryChart'), {
       type: 'doughnut',
       data: {
@@ -245,10 +257,10 @@ function pesos($amount) {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'IBM Plex Sans', size: 11 } } } }
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'IBM Plex Sans', size: 11 }, color: legendColor } } }
       }
     });
-    }
+  }
 </script>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

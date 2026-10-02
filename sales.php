@@ -147,8 +147,13 @@ function pesos($amount) {
 
     <?php include __DIR__ . '/includes/flash.php'; ?>
 
-    <div class="panel">
-      <h2>Record a new sale</h2>
+        <div class="panel">
+      <h2>
+        Record a new sale
+        <button type="button" class="btn btn-outline-secondary btn-sm no-print ms-2" id="openAddProductModal" title="Add a new product to the catalog">
+          <i class="bi bi-plus-lg"></i> New product
+        </button>
+      </h2>
       <?php if (empty($products)): ?>
         <p class="empty-state">No products found. Add products to the database before recording a sale.</p>
       <?php else: ?>
@@ -222,7 +227,40 @@ function pesos($amount) {
         </div>
       <?php endif; ?>
     </div>
-  </main>
+    </main>
+
+  <!-- Add Product Modal -->
+  <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="addProductForm" autocomplete="off">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductModalLabel">Add new product</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="field">
+              <label for="apName">Product name</label>
+              <input type="text" id="apName" name="name" required>
+            </div>
+            <div class="field">
+              <label for="apPrice">Unit price (₱)</label>
+              <input type="number" id="apPrice" name="price" step="0.01" min="0.01" required>
+            </div>
+            <div class="field">
+              <label for="apStock">Starting stock (units)</label>
+              <input type="number" id="apStock" name="stock_qty" min="0" value="0">
+            </div>
+            <div id="apError" style="display:none; color: var(--error-red); margin-top: 0.5rem; font-size: 0.875rem;"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save product</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -311,6 +349,84 @@ function pesos($amount) {
 
   // Start with one row.
     if (products.length) addRow();
+
+  // ---- Add Product Modal (AJAX) ----
+  var addProductModalEl = document.getElementById('addProductModal');
+  var addProductModal = addProductModalEl ? new bootstrap.Modal(addProductModalEl) : null;
+
+  document.getElementById('openAddProductModal')?.addEventListener('click', function () {
+    document.getElementById('apError').style.display = 'none';
+    document.getElementById('apError').textContent = '';
+    addProductModal?.show();
+  });
+
+  document.getElementById('addProductForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = this;
+    var errorEl = document.getElementById('apError');
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var originalBtnText = submitBtn.textContent;
+    errorEl.style.display = 'none';
+    errorEl.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving…';
+
+    fetch('api_products.php', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+
+                if (data.success) {
+          addProductModal?.hide();
+          form.reset();
+
+          // Normalize API response to match the JS products array shape
+          var newProduct = {
+            id: data.product.id,
+            name: data.product.name,
+            price: data.product.price,
+            stock: data.product.stock_qty
+          };
+          products.push(newProduct);
+
+          // Re-sort the products array by name to match server ORDER BY
+          products.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+          });
+
+          // Update all open product dropdowns
+          document.querySelectorAll('.product-select').forEach(function (select) {
+            var selectedVal = select.value;
+            select.innerHTML = '<option value="">Select product</option>';
+            products.forEach(function (p) {
+              var opt = document.createElement('option');
+              opt.value = p.id;
+              opt.textContent = p.name + ' (' + p.stock + ' in stock)';
+              opt.dataset.price = p.price;
+              opt.dataset.stock = p.stock;
+              if (String(p.id) === selectedVal) opt.selected = true;
+              select.appendChild(opt);
+            });
+          });
+
+          showToast('Product added to catalog.', 'success');
+        } else {
+          errorEl.textContent = data.error || 'Something went wrong.';
+          errorEl.style.display = 'block';
+        }
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+        errorEl.textContent = 'Network error — could not reach the server.';
+        errorEl.style.display = 'block';
+      });
+  });
 </script>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

@@ -75,6 +75,9 @@ $LOW_STOCK_THRESHOLD = 10;
   .stock-pill { font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 10px; font-weight: 500; }
   .stock-ok { background: rgba(43,86,70,0.1); color: var(--ledger-green); }
   .stock-low { background: rgba(179,38,30,0.1); color: var(--error-red); }
+  /* Dark mode: stock pills white so numbers are visible */
+  body.dark .stock-ok,
+  body.dark .stock-low { color: var(--ink) !important; }
 
   .restock-form { display: flex; gap: 0.4rem; align-items: center; }
   .restock-form input {
