@@ -124,38 +124,21 @@ function pesos($amount) {
 
 <?php include __DIR__ . '/includes/head.php'; ?>
 
+
 <style>
-  .filter-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: end; margin-bottom: 1.5rem; }
-  .filter-row .field { margin-bottom: 0; min-width: 150px; }
-  .filter-row .field label { font-size: 0.75rem; }
-
-  .preset-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .preset-tabs a {
-    padding: 0.4rem 0.9rem; border-radius: 4px; font-size: 0.875rem; text-decoration: none;
-    color: var(--ink); background: rgba(22,33,28,0.06);
-  }
-  .preset-tabs a.active { background: var(--gold); color: var(--paper); font-weight: 500; }
-  .preset-tabs a:hover:not(.active) { background: rgba(22,33,28,0.1); }
-
+  /* Shared styles live in style.css; this block is print-only report layout. */
   .report-header { display: none; }
-
-  .net-positive { color: var(--ledger-green); }
-  .net-negative { color: var(--error-red); }
-  /* Dark mode: make net profit values white like other summary cards */
-  body.dark .net-positive,
-  body.dark .net-negative { color: var(--ink); }
-
-  .report-meta { font-size: 0.875rem; color: rgba(22,33,28,0.6); margin-bottom: 1.5rem; }
 
   @media print {
     .sidebar, .topbar .welcome, .filter-row, .preset-tabs, .no-print { display: none !important; }
     .layout { display: block; }
     .main { padding: 0; }
-    body { background: #fff; }
+    .topbar h1::after { display: none; }
     .panel { box-shadow: none; border: none; padding: 0.5rem 0; margin-bottom: 1rem; }
-    .report-header { display: block; margin-bottom: 1.5rem; border-bottom: 2px solid #16211C; padding-bottom: 1rem; }
+    .report-header { display: block; margin-bottom: 1.5rem; border-bottom: 2px solid #2B2B22; padding-bottom: 1rem; }
     .report-header h1 { font-family: 'Fraunces', serif; margin: 0 0 0.25rem; }
     .card-row { grid-template-columns: repeat(3, 1fr); }
+    .summary-card::before, .summary-card::after, .card-icon { display: none; }
   }
 </style>
 </head>
@@ -213,14 +196,17 @@ function pesos($amount) {
 
     <div class="card-row">
       <div class="summary-card">
+        <div class="card-icon"><i class="bi bi-receipt-cutoff"></i></div>
         <div class="label">Total sales</div>
         <div class="value"><?php echo pesos($totalSales); ?></div>
       </div>
       <div class="summary-card expense-accent">
+        <div class="card-icon"><i class="bi bi-wallet2"></i></div>
         <div class="label">Total expenses</div>
         <div class="value"><?php echo pesos($totalExpenses); ?></div>
       </div>
-      <div class="summary-card" style="border-top-color: <?php echo $netProfit >= 0 ? 'var(--ledger-green)' : 'var(--error-red)'; ?>;">
+      <div class="summary-card <?php echo $netProfit >= 0 ? 'profit-accent' : 'expense-accent'; ?>">
+        <div class="card-icon"><i class="bi <?php echo $netProfit >= 0 ? 'bi-flower1' : 'bi-graph-down-arrow'; ?>"></i></div>
         <div class="label">Estimated net profit</div>
         <div class="value <?php echo $netProfit >= 0 ? 'net-positive' : 'net-negative'; ?>"><?php echo pesos($netProfit); ?></div>
       </div>

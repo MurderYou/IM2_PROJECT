@@ -90,30 +90,11 @@ function pesos($amount) {
 
 <?php include __DIR__ . '/includes/head.php'; ?>
 
+
 <style>
-  .split-panels { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+  /* Shared styles live in style.css; expenses uses a wider form column. */
+  .split-panels { grid-template-columns: 1.4fr 1fr; }
   @media (max-width: 992px) { .split-panels { grid-template-columns: 1fr; } }
-
-  .category-list { list-style: none; padding: 0; margin: 1rem 0 0; }
-  .category-list li {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0.5rem 0; border-bottom: 1px solid rgba(22,33,28,0.06); font-size: 0.9rem;
-  }
-  .category-list li:last-child { border-bottom: none; }
-
-  .inline-form { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-  .inline-form input { flex: 1; }
-
-  .filter-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: end; margin-bottom: 1.25rem; }
-  .filter-row .field { margin-bottom: 0; min-width: 160px; }
-  .filter-row .field label { font-size: 0.75rem; }
-
-  .edit-banner {
-    background: rgba(184, 134, 11, 0.1); border-left: 3px solid var(--gold);
-    color: #6b5209; font-size: 0.875rem; padding: 0.6rem 1rem; margin-bottom: 1.25rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .edit-banner a { color: var(--gold-hover); font-weight: 500; text-decoration: none; }
 </style>
 </head>
 <body>

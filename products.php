@@ -61,30 +61,6 @@ $LOW_STOCK_THRESHOLD = 10;
 
 <?php include __DIR__ . '/includes/head.php'; ?>
 
-<style>
-  .split-panels { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.25rem; margin-bottom: 1.5rem; }
-  @media (max-width: 992px) { .split-panels { grid-template-columns: 1fr; } }
-
-  .edit-banner {
-    background: rgba(184, 134, 11, 0.1); border-left: 3px solid var(--gold);
-    color: #6b5209; font-size: 0.875rem; padding: 0.6rem 1rem; margin-bottom: 1.25rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .edit-banner a { color: var(--gold-hover); font-weight: 500; text-decoration: none; }
-
-  .stock-pill { font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 10px; font-weight: 500; }
-  .stock-ok { background: rgba(43,86,70,0.1); color: var(--ledger-green); }
-  .stock-low { background: rgba(179,38,30,0.1); color: var(--error-red); }
-  /* Dark mode: stock pills white so numbers are visible */
-  body.dark .stock-ok,
-  body.dark .stock-low { color: var(--ink) !important; }
-
-  .restock-form { display: flex; gap: 0.4rem; align-items: center; }
-  .restock-form input {
-    width: 70px; border: 1px solid rgba(22,33,28,0.2); padding: 0.35rem 0.5rem;
-    border-radius: 4px; font-size: 0.85rem;
-  }
-</style>
 </head>
 <body>
 
@@ -118,7 +94,7 @@ $LOW_STOCK_THRESHOLD = 10;
           </div>
         <?php endif; ?>
 
-        <form action="products_process.php" method="POST">
+        <form action="product_process.php" method="POST">
           <input type="hidden" name="action" value="<?php echo $editingProduct ? 'update' : 'create'; ?>">
           <?php if ($editingProduct): ?>
             <input type="hidden" name="product_id" value="<?php echo (int) $editingProduct['id']; ?>">
@@ -141,7 +117,7 @@ $LOW_STOCK_THRESHOLD = 10;
             <input type="number" id="stock_qty" name="stock_qty" min="0" required
                    value="<?php echo htmlspecialchars($editingProduct['stock_qty'] ?? '0'); ?>">
             <?php if ($editingProduct): ?>
-              <div class="hint" style="font-size:0.75rem; color:rgba(22,33,28,0.5); margin-top:0.35rem;">
+              <div class="hint">
                 To add newly delivered stock without retyping the total, use "Restock" in the table instead.
               </div>
             <?php endif; ?>
@@ -169,7 +145,7 @@ $LOW_STOCK_THRESHOLD = 10;
                     </span>
                   </td>
                   <td>
-                    <form action="products_process.php" method="POST" class="restock-form">
+                    <form action="product_process.php" method="POST" class="restock-form">
                       <input type="hidden" name="action" value="restock">
                       <input type="hidden" name="product_id" value="<?php echo (int) $p['id']; ?>">
                       <input type="number" name="restock_qty" min="1" placeholder="qty" required>
@@ -178,7 +154,7 @@ $LOW_STOCK_THRESHOLD = 10;
                   </td>
                   <td>
                     <a href="products.php?edit=<?php echo (int) $p['id']; ?>" class="btn btn-secondary btn-sm">Edit</a>
-                    <form action="products_process.php" method="POST" style="display:inline" onsubmit="return confirm('Delete this product? This cannot be undone.');">
+                    <form action="product_process.php" method="POST" style="display:inline" onsubmit="return confirm('Delete this product? This cannot be undone.');">
                       <input type="hidden" name="action" value="delete">
                       <input type="hidden" name="product_id" value="<?php echo (int) $p['id']; ?>">
                       <button type="submit" class="btn btn-danger btn-sm">Delete</button>

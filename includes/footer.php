@@ -37,6 +37,7 @@
       body.classList.remove('dark');
     }
     localStorage.setItem(THEME_KEY, theme);
+    document.dispatchEvent(new CustomEvent('sems:themechange', { detail: { theme: theme } }));
   }
 
   // Initialise from stored preference, or system preference as fallback
@@ -52,9 +53,18 @@
   // Toggle button (expect an element with id="themeToggle")
   var toggleBtn = document.getElementById('themeToggle');
   if (toggleBtn) {
+    var syncToggleLabel = function () {
+      var isDark = body.classList.contains('dark');
+      var icon = toggleBtn.querySelector('i');
+      var label = toggleBtn.querySelector('span');
+      if (icon) icon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      if (label) label.textContent = isDark ? 'Light mode' : 'Dark mode';
+    };
+    syncToggleLabel();
     toggleBtn.addEventListener('click', function () {
       var isDark = body.classList.contains('dark');
       applyTheme(isDark ? 'light' : 'dark');
+      syncToggleLabel();
     });
   }
 

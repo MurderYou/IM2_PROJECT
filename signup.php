@@ -30,248 +30,13 @@ unset($_SESSION['signup_error'], $_SESSION['signup_old']);
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..700,0..100&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-<style>
-  :root {
-    --ledger-green: #1E3D32;
-    --ledger-green-light: #2B5646;
-    --paper: #EFECE3;
-    --ink: #16211C;
-    --gold: #B8860B;
-    --gold-hover: #9C7109;
-    --error-red: #B3261E;
-  }
-
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-
-  body {
-    margin: 0;
-    font-family: 'IBM Plex Sans', sans-serif;
-    color: var(--ink);
-    background: var(--paper);
-  }
-
-  .split {
-    min-height: 100vh;
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .brand-panel {
-    flex: 1 1 420px;
-    background: var(--ledger-green);
-    color: var(--paper);
-    padding: 4rem 3.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .brand-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(239, 236, 227, 0.06) 0px,
-      rgba(239, 236, 227, 0.06) 1px,
-      transparent 1px,
-      transparent 48px
-    );
-    pointer-events: none;
-  }
-
-  .brand-mark { position: relative; z-index: 1; }
-
-  .brand-mark .wordmark {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 2.75rem;
-    letter-spacing: -0.01em;
-    margin: 0 0 0.75rem;
-    line-height: 1.05;
-  }
-
-  .brand-mark .tagline {
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 34ch;
-    color: rgba(239, 236, 227, 0.82);
-    margin: 0;
-  }
-
-  .brand-footer {
-    position: relative;
-    z-index: 1;
-    font-size: 0.8125rem;
-    color: rgba(239, 236, 227, 0.6);
-  }
-
-  .form-panel {
-    flex: 1 1 420px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 2rem;
-    background: var(--paper);
-  }
-
-  .form-wrap { width: 100%; max-width: 380px; }
-
-  .form-wrap h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 1.625rem;
-    margin: 0 0 0.5rem;
-    color: var(--ink);
-  }
-
-  .form-wrap .sub {
-    font-size: 0.9375rem;
-    color: rgba(22, 33, 28, 0.65);
-    margin: 0 0 2rem;
-    line-height: 1.5;
-  }
-
-  .field { margin-bottom: 1.4rem; }
-
-  .field label {
-    display: block;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: rgba(22, 33, 28, 0.75);
-    margin-bottom: 0.4rem;
-  }
-
-  .field input {
-    width: 100%;
-    border: none;
-    border-bottom: 1.5px solid rgba(22, 33, 28, 0.25);
-    background: transparent;
-    padding: 0.5rem 0.1rem;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 1rem;
-    color: var(--ink);
-    border-radius: 0;
-    transition: border-color 0.15s ease;
-  }
-
-  .field input:focus {
-    outline: none;
-    border-bottom-color: var(--gold);
-    box-shadow: none;
-  }
-
-  .field .hint {
-    font-size: 0.75rem;
-    color: rgba(22, 33, 28, 0.5);
-    margin-top: 0.35rem;
-  }
-
-  .btn-signup {
-    width: 100%;
-    background: var(--gold);
-    color: var(--paper);
-    border: none;
-    padding: 0.75rem 1rem;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    font-family: 'IBM Plex Sans', sans-serif;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-    margin-top: 0.5rem;
-  }
-
-  .btn-signup:hover { background: var(--gold-hover); }
-
-  .btn-signup:focus-visible {
-    outline: 2px solid var(--ledger-green);
-    outline-offset: 2px;
-  }
-
-  .signin-note {
-    margin-top: 1.75rem;
-    font-size: 0.875rem;
-    color: rgba(22, 33, 28, 0.65);
-  }
-
-  .signin-note a {
-    color: var(--gold);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .signin-note a:hover { text-decoration: underline; color: var(--gold-hover); }
-
-  .alert-banner {
-    background: rgba(179, 38, 30, 0.08);
-    border-left: 3px solid var(--error-red);
-    color: var(--error-red);
-    font-size: 0.875rem;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1.75rem;
-  }
-
-  @media (max-width: 767px) {
-    .brand-panel { padding: 2.75rem 1.75rem; }
-    .brand-mark .wordmark { font-size: 2.1rem; }
-        .form-panel { padding: 2.75rem 1.75rem; }
-  }
-
-  /* ---------- Dark mode (auth pages) ---------- */
-  body.dark {
-    --ledger-green: #0e231e;
-    --gold: #d9b558;
-    --paper: #1a1f1d;
-    --paper-card: #222825;
-    --ink: #e8e2d6;
-    --ink-dim: #c4bdae;
-    --error-red: #d9534f;
-  }
-  body.dark .brand-panel { opacity: 0.92; }
-  body.dark .form-panel { background: var(--paper); color: var(--ink); }
-    body.dark .wordmark,
-  body.dark .tagline,
-  body.dark .brand-footer { color: var(--ink-dim); }
-  body.dark .form-wrap h1,
-  body.dark .form-wrap .sub,
-  body.dark .signin-note,
-  body.dark .role-note { color: var(--ink); }
-  body.dark .field input { background: #2a322f; border-color: #444d4a; color: var(--ink); }
-  body.dark .field label { color: var(--ink); }
-  body.dark .field .hint { color: var(--ink-dim); }
-  body.dark .alert-banner { background: rgba(217, 83, 79, 0.12); }
-
-  .theme-toggle-fixed {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(22, 33, 28, 0.15);
-    border-radius: 6px;
-    padding: 0.4rem 0.6rem;
-    cursor: pointer;
-    font-size: 1.1rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease;
-    backdrop-filter: blur(4px);
-  }
-  body.dark .theme-toggle-fixed {
-    background: rgba(26, 31, 29, 0.9);
-    border-color: rgba(239, 236, 227, 0.15);
-  }
-  .theme-toggle-fixed:hover { opacity: 0.8; }
-</style>
+<link rel="stylesheet" href="auth.css">
 </head>
 <body>
 
@@ -283,9 +48,25 @@ unset($_SESSION['signup_error'], $_SESSION['signup_old']);
 
   <div class="brand-panel">
     <div class="brand-mark">
-      <p class="wordmark">SEMS</p>
+      <p class="wordmark">SEMS<em>.</em></p>
       <p class="tagline">Create a staff account to start recording sales and expenses.</p>
+      <ul class="brand-chips">
+        <li><i class="bi bi-person-check"></i> Staff access</li>
+        <li><i class="bi bi-shield-check"></i> Secure sign-in</li>
+      </ul>
     </div>
+
+    <svg class="sprout-art" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A sprout growing from a peso coin">
+      <ellipse cx="90" cy="160" rx="62" ry="10" fill="#A9BF98" opacity="0.18"/>
+      <path d="M90 128V70" stroke="#A9BF98" stroke-width="4" stroke-linecap="round"/>
+      <path class="leaf" d="M90 96C90 70 70 52 40 50c0 28 20 46 50 46Z" fill="#A9BF98"/>
+      <path class="leaf right" d="M90 80c0-26 18-46 50-50 0 30-20 50-50 50Z" fill="#DDB15A"/>
+      <path d="M90 96C78 86 64 72 56 60" stroke="#2F4A39" stroke-width="1.6" stroke-linecap="round" opacity="0.5"/>
+      <path d="M90 80c10-12 22-28 36-38" stroke="#2F4A39" stroke-width="1.6" stroke-linecap="round" opacity="0.4"/>
+      <circle cx="90" cy="132" r="26" fill="#C3922E"/>
+      <circle cx="90" cy="132" r="19" stroke="#F3EEE2" stroke-opacity="0.45" stroke-width="2"/>
+      <text x="90" y="141" font-family="Fraunces, serif" font-size="26" font-weight="600" fill="#F3EEE2" text-anchor="middle">₱</text>
+    </svg>
     <p class="brand-footer">Sales and Expense Monitoring System</p>
   </div>
 

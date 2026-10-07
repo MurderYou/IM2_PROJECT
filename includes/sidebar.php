@@ -34,7 +34,16 @@ function initials($fullName) {
 ?>
 <aside class="sidebar">
 
-  <div class="sidebar-brand">SEMS</div>
+  <div class="sidebar-brand">
+    <span class="brand-leaf" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21V11" stroke="#A9BF98" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M12 13C12 8.5 8.5 5.5 4 5.5c0 4.5 3.5 7.5 8 7.5Z" fill="#A9BF98"/>
+        <path d="M12 11c0-4.2 3-7.5 8-8 0 4.6-3.3 8-8 8Z" fill="#DDB15A"/>
+      </svg>
+    </span>
+    SEMS
+  </div>
 
   <!-- User avatar at top (personalised navigation) -->
   <div class="sidebar-user">
@@ -63,7 +72,7 @@ function initials($fullName) {
       <span>Expenses</span>
     </a></li>
     <li><a href="reports.php" class="<?php echo navClass('reports', $activePage); ?>">
-      <i class="bi bi-file-bar-chart"></i>
+      <i class="bi bi-file-bar-graph"></i>
       <span>Reports</span>
     </a></li>
     <?php if ($navRole === 'admin'): ?>
@@ -82,6 +91,6 @@ function initials($fullName) {
     </button>
     <hr>
     Signed in as <strong><?php echo htmlspecialchars($navFullName); ?></strong><br>
-    <a href="logout.php">Sign out</a>
+    <a href="logout.php"><i class="bi bi-box-arrow-left"></i> Sign out</a>
   </div>
 </aside>

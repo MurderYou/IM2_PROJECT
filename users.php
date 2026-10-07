@@ -64,22 +64,6 @@ try {
 
 <?php include __DIR__ . '/includes/head.php'; ?>
 
-<style>
-  .split-panels { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.25rem; margin-bottom: 1.5rem; }
-  @media (max-width: 992px) { .split-panels { grid-template-columns: 1fr; } }
-
-  .edit-banner {
-    background: rgba(184, 134, 11, 0.1); border-left: 3px solid var(--gold);
-    color: #6b5209; font-size: 0.875rem; padding: 0.6rem 1rem; margin-bottom: 1.25rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .edit-banner a { color: var(--gold-hover); font-weight: 500; text-decoration: none; }
-
-  .you-tag {
-    font-size: 0.7rem; background: rgba(43,86,70,0.12); color: var(--ledger-green);
-    padding: 0.1rem 0.4rem; border-radius: 3px; margin-left: 0.4rem;
-  }
-</style>
 </head>
 <body>
 
@@ -143,7 +127,7 @@ try {
             <label for="password"><?php echo $editingUser ? 'New password' : 'Password'; ?></label>
             <input type="password" id="password" name="password" <?php echo $editingUser ? '' : 'required'; ?>>
             <?php if ($editingUser): ?>
-              <div class="hint" style="font-size:0.75rem; color:rgba(22,33,28,0.5); margin-top:0.35rem;">Leave blank to keep the current password.</div>
+              <div class="hint">Leave blank to keep the current password.</div>
             <?php endif; ?>
           </div>
 

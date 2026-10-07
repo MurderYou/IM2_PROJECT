@@ -144,18 +144,22 @@ function pesos($amount) {
 
     <div class="card-row">
       <div class="summary-card">
+        <div class="card-icon"><i class="bi bi-sun"></i></div>
         <div class="label">Today's sales</div>
         <div class="value"><?php echo pesos($todaySales); ?></div>
       </div>
       <div class="summary-card expense-accent">
+        <div class="card-icon"><i class="bi bi-basket"></i></div>
         <div class="label">Today's expenses</div>
         <div class="value"><?php echo pesos($todayExpenses); ?></div>
       </div>
       <div class="summary-card">
+        <div class="card-icon"><i class="bi bi-tree"></i></div>
         <div class="label">This month's sales</div>
         <div class="value"><?php echo pesos($monthSales); ?></div>
       </div>
       <div class="summary-card expense-accent">
+        <div class="card-icon"><i class="bi bi-wallet2"></i></div>
         <div class="label">This month's expenses</div>
         <div class="value"><?php echo pesos($monthExpenses); ?></div>
       </div>
@@ -213,54 +217,110 @@ function pesos($amount) {
   const categoryLabels  = <?php echo json_encode($categoryLabels); ?>;
   const categoryAmounts = <?php echo json_encode($categoryAmounts); ?>;
 
-  if (trendLabels.length) {
-    var isDark = document.body.classList.contains('dark');
-    var axisColor = isDark ? 'rgba(239, 236, 227, 0.5)' : 'rgba(22, 33, 28, 0.3)';
-    var legendColor = isDark ? '#e8e2d6' : '#16211c';
-    new Chart(document.getElementById('trendChart'), {
-      type: 'line',
-      data: {
-        labels: trendLabels,
-        datasets: [
-          { label: 'Sales', data: trendSales, borderColor: '#B8860B', backgroundColor: 'rgba(184, 134, 11, 0.1)', tension: 0.3, fill: true },
-          { label: 'Expenses', data: trendExpenses, borderColor: '#B3261E', backgroundColor: 'rgba(179, 38, 30, 0.08)', tension: 0.3, fill: true }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'IBM Plex Sans' }, color: legendColor } } },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { font: { family: 'IBM Plex Sans' }, color: legendColor },
-            grid: { color: axisColor }
-          },
-          x: {
-            ticks: { font: { family: 'IBM Plex Sans' }, color: legendColor },
-            grid: { color: axisColor }
-          }
-        }
-      }
-    });
+  // Charts read colours from the CSS tokens in style.css so they follow
+  // the organic palette and re-theme when dark mode is toggled.
+  // Built on DOMContentLoaded so the footer has applied the saved theme first.
+  var charts = [];
+
+  function cssVar(name) {
+    return getComputedStyle(document.body).getPropertyValue(name).trim();
   }
 
-  if (categoryLabels.length) {
-    var isDark = document.body.classList.contains('dark');
-    var legendColor = isDark ? '#e8e2d6' : '#16211c';
-    new Chart(document.getElementById('categoryChart'), {
-      type: 'doughnut',
-      data: {
-        labels: categoryLabels,
-        datasets: [{ data: categoryAmounts, backgroundColor: ['#1E3D32', '#B8860B', '#B3261E', '#2B5646', '#6b5209', '#8a3a34'], borderWidth: 0 }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'IBM Plex Sans', size: 11 }, color: legendColor } } }
-      }
-    });
+  function withAlpha(hex, alpha) {
+    var n = parseInt(hex.replace('#', ''), 16);
+    return 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + alpha + ')';
   }
+
+  function verticalFill(color) {
+    return function (context) {
+      var area = context.chart.chartArea;
+      if (!area) return withAlpha(color, 0.15);
+      var g = context.chart.ctx.createLinearGradient(0, area.top, 0, area.bottom);
+      g.addColorStop(0, withAlpha(color, 0.3));
+      g.addColorStop(1, withAlpha(color, 0));
+      return g;
+    };
+  }
+
+  function buildCharts() {
+    charts.forEach(function (c) { c.destroy(); });
+    charts = [];
+
+    var ink      = cssVar('--ink');
+    var line     = cssVar('--line');
+    var ochre    = cssVar('--ochre');
+    var clay     = cssVar('--clay');
+    var linen    = cssVar('--linen');
+    var font     = { family: 'Nunito', weight: '600' };
+
+    Chart.defaults.font.family = 'Nunito';
+    Chart.defaults.color = ink;
+
+    var tooltip = {
+      backgroundColor: cssVar('--forest'),
+      titleColor: '#F3EEE2',
+      bodyColor: '#F3EEE2',
+      padding: 12,
+      cornerRadius: 14,
+      boxPadding: 4,
+      usePointStyle: true
+    };
+
+    if (trendLabels.length) {
+      charts.push(new Chart(document.getElementById('trendChart'), {
+        type: 'line',
+        data: {
+          labels: trendLabels,
+          datasets: [
+            { label: 'Sales', data: trendSales, borderColor: ochre, backgroundColor: verticalFill(ochre),
+              borderWidth: 2.5, cubicInterpolationMode: 'monotone', fill: true, pointRadius: 0, pointHoverRadius: 5,
+              pointBackgroundColor: ochre, pointBorderColor: linen, pointBorderWidth: 2 },
+            { label: 'Expenses', data: trendExpenses, borderColor: clay, backgroundColor: verticalFill(clay),
+              borderWidth: 2.5, cubicInterpolationMode: 'monotone', fill: true, pointRadius: 0, pointHoverRadius: 5,
+              pointBackgroundColor: clay, pointBorderColor: linen, pointBorderWidth: 2 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', boxWidth: 8, padding: 18, font: font, color: ink } },
+            tooltip: tooltip
+          },
+          scales: {
+            y: { beginAtZero: true, border: { display: false }, ticks: { font: font, color: ink, padding: 8 }, grid: { color: line } },
+            x: { border: { display: false }, ticks: { font: font, color: ink, maxRotation: 0, autoSkipPadding: 12 }, grid: { display: false } }
+          }
+        }
+      }));
+    }
+
+    if (categoryLabels.length) {
+      var palette = [cssVar('--moss'), ochre, clay, cssVar('--sage'), cssVar('--bark'), cssVar('--forest-2')];
+      charts.push(new Chart(document.getElementById('categoryChart'), {
+        type: 'doughnut',
+        data: {
+          labels: categoryLabels,
+          datasets: [{ data: categoryAmounts, backgroundColor: palette, borderColor: linen, borderWidth: 4, borderRadius: 10, spacing: 2, hoverOffset: 6 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '64%',
+          plugins: {
+            legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', boxWidth: 8, padding: 14, font: { family: 'Nunito', size: 11, weight: '600' }, color: ink } },
+            tooltip: tooltip
+          }
+        }
+      }));
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', buildCharts);
+  document.addEventListener('sems:themechange', function () {
+    if (document.readyState !== 'loading') buildCharts();
+  });
 </script>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

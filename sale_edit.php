@@ -68,65 +68,6 @@ if (!$dataUnavailable && !$saleFound) {
 
 <?php include __DIR__ . '/includes/head.php'; ?>
 
-<style>
-  .line-items-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-  }
-  .line-items-table th {
-    text-align: left;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: rgba(22, 33, 28, 0.5);
-    font-weight: 500;
-    padding: 0 0.5rem 0.5rem;
-  }
-  .line-items-table td {
-    padding: 0.4rem 0.5rem;
-    vertical-align: middle;
-  }
-  .line-items-table select,
-  .line-items-table input {
-    width: 100%;
-    border: 1px solid rgba(22, 33, 28, 0.2);
-    padding: 0.45rem 0.6rem;
-    border-radius: 4px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.9rem;
-  }
-  .line-items-table input[readonly] {
-    background: rgba(22, 33, 28, 0.04);
-  }
-  .remove-row-btn {
-    background: none;
-    border: none;
-    color: var(--error-red);
-    cursor: pointer;
-    font-size: 1.1rem;
-    padding: 0.2rem 0.5rem;
-    line-height: 1;
-  }
-  .remove-row-btn:hover { opacity: 0.7; }
-  .form-actions-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .grand-total {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 1.25rem;
-  }
-  .stock-hint {
-    font-size: 0.75rem;
-    color: rgba(22, 33, 28, 0.45);
-  }
-</style>
 </head>
 <body>
 
